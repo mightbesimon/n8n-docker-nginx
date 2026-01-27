@@ -20,8 +20,7 @@ ln -s /root/n8n-docker-nginx/status.conf /etc/nginx/sites-available/
 ln -s /etc/nginx/sites-available/status.conf /etc/nginx/sites-enabled/
 nginx -s reload
 
-command rm /etc/vector/vector.yaml
-ln -s /root/n8n-docker-nginx/vector.yml /etc/vector/
+cp /root/n8n-docker-nginx/vector.yaml /etc/vector/
 systemctl restart vector
 
 # # check status

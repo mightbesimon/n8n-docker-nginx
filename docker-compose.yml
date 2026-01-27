@@ -12,6 +12,8 @@ services:
       - GENERIC_TIMEZONE=Europe/Paris
       - TZ=Europe/Paris
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_RUNNERS_ENABLED=false
+      - N8N_PYTHON_BINARY=/usr/bin/python3
       - N8N_METRICS=true
       - QUEUE_HEALTH_CHECK_ACTIVE=true
     volumes:

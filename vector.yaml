@@ -4,6 +4,9 @@
 # Forwarding logs to S1700491.eu-fsn-3.betterstackdata.com
 # Generated on 2026-01-26: https://telemetry.betterstack.com/vector-yaml/docker/9F57Aa5bCpSWpdSbzKhfJTg9
 # --------------------------------------------------------
+# Forwarding logs to S1702547.eu-fsn-3.betterstackdata.com
+# Generated on 2026-01-27: https://telemetry.betterstack.com/vector-yaml/ubuntu/fieSBmYcTqoWhTJgHWYXhSbV
+# --------------------------------------------------------
 # - Nginx: v8
 # - Docker: v8
 
@@ -34,12 +37,15 @@ sources:
       codec: "bytes"
     mode: "scheduled"
     scheduled:
-      exec_interval_secs: 60
+      exec_interval_secs: 120
 
-  better_stack_host_metrics_9F57Aa5bCpSWpdSbzKhfJTg9:
+  # --------------------------------------------------------
+
+  better_stack_host_metrics_fieSBmYcTqoWhTJgHWYXhSbV:
     type: "host_metrics"
     scrape_interval_secs: 60
     collectors: [cpu, disk, filesystem, load, host, memory, network]
+
 
 transforms:
 
@@ -544,6 +550,7 @@ transforms:
         }
       }
 
+
 sinks:
 
   better_stack_http_sink_pdJqFLtYr4dq5L6h1n7H5QWj:
@@ -594,8 +601,22 @@ sinks:
     auth:
       strategy: "bearer"
       token: "9F57Aa5bCpSWpdSbzKhfJTg9"
-    inputs: ["better_stack_docker_metrics_parser_9F57Aa5bCpSWpdSbzKhfJTg9","better_stack_host_metrics_9F57Aa5bCpSWpdSbzKhfJTg9"]
+    inputs: ["better_stack_docker_metrics_parser_9F57Aa5bCpSWpdSbzKhfJTg9"]
 
+  # --------------------------------------------------------
+
+  better_stack_http_metrics_sink_fieSBmYcTqoWhTJgHWYXhSbV:
+    type: "http"
+    method: "post"
+    uri: "https://s1702547.eu-fsn-3.betterstackdata.com/metrics"
+    encoding:
+      codec: "json"
+    compression: "gzip"
+    auth:
+      strategy: "bearer"
+      token: "fieSBmYcTqoWhTJgHWYXhSbV"
+    inputs: ["better_stack_host_metrics_fieSBmYcTqoWhTJgHWYXhSbV"]
 
 # --- end of 2026-01-26: https://telemetry.betterstack.com/vector-yaml/nginx/pdJqFLtYr4dq5L6h1n7H5QWj
 # --- end of 2026-01-26: https://telemetry.betterstack.com/vector-yaml/docker/9F57Aa5bCpSWpdSbzKhfJTg9
+# --- end of 2026-01-27: https://telemetry.betterstack.com/vector-yaml/ubuntu/fieSBmYcTqoWhTJgHWYXhSbV

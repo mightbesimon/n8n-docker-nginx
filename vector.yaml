@@ -22,11 +22,6 @@ sources:
       - "http://127.0.0.1/nginx_status" # endpoint exposing Nginx metrics: http://nginx.org/en/docs/http/ngx_http_stub_status_module.html
     scrape_interval_secs: 60            # Define how often to scrape
 
-  better_stack_host_metrics_pdJqFLtYr4dq5L6h1n7H5QWj:
-    type: "host_metrics"
-    scrape_interval_secs: 60
-    collectors: [cpu, disk, filesystem, load, host, memory, network]
-
   # --------------------------------------------------------
 
   better_stack_docker_logs_9F57Aa5bCpSWpdSbzKhfJTg9:
@@ -573,7 +568,7 @@ sinks:
     auth:
       strategy: "bearer"
       token: "pdJqFLtYr4dq5L6h1n7H5QWj"
-    inputs: ["better_stack_nginx_metrics_parser_pdJqFLtYr4dq5L6h1n7H5QWj","better_stack_host_metrics_pdJqFLtYr4dq5L6h1n7H5QWj"]
+    inputs: ["better_stack_nginx_metrics_parser_pdJqFLtYr4dq5L6h1n7H5QWj"]
 
   # --------------------------------------------------------
 

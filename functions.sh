@@ -11,6 +11,7 @@ function reload_nginx
 }
 function reload_vector
 {
+	cp $HOME/n8n-docker-nginx/vector.yaml /etc/vector/
 	systemctl restart vector
 }
 function n8n_logs

@@ -22,6 +22,19 @@ services:
       - GENERIC_TIMEZONE=Europe/Paris # set n8n timezone
       - TZ=Europe/Paris # set container timezone
 
+      # executions data pruning
+      - DB_SQLITE_VACUUM_ON_STARTUP=true # vacuum pruned disk space
+      - EXECUTIONS_DATA_MAX_AGE=336 # keep for 2 week [ 168hr=7d / 336hr=14d ]
+      - EXECUTIONS_DATA_PRUNE=true
+      - EXECUTIONS_DATA_PRUNE_MAX_COUNT=100 # keep only newest 100
+      - EXECUTIONS_DATA_SAVE_ON_ERROR=all # do not usually error so might as well keep
+      - EXECUTIONS_DATA_SAVE_ON_SUCCESS=all # set to false to reduce database size
+      - EXECUTIONS_DATA_SAVE_ON_PROGRESS=false # set to true save node execution progress for debugging
+      - EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS=false # too much data during testing
+
+      # file handling
+      - N8N_DEFAULT_BINARY_DATA_MODE=filesystem # store on disk instead of in memory to avoid large files crashing
+
       # metrics
       - N8N_METRICS=true # enable Prometheus metrics
       - N8N_METRICS_INCLUDE_CACHE_METRICS=true

@@ -9,7 +9,7 @@ services:
       # security and privacy, and reduce network traffic
       - N8N_DIAGNOSTICS_ENABLED=false # disable telemetry collection
       - N8N_VERSION_NOTIFICATIONS_ENABLED=false
-      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true # only owner can read write settings file
 
       # domain
       - N8N_PROXY_HOPS=1 # required when running behind a reverse proxy
@@ -35,15 +35,23 @@ services:
       # file handling
       - N8N_DEFAULT_BINARY_DATA_MODE=filesystem # store on disk instead of in memory to avoid large files crashing
 
+      # logging
+      - CODE_ENABLE_STDOUT=true # allows output printouts in logs from js or python
+      - DB_LOGGING_ENABLED=true
+      - DB_LOGGING_OPTIONS=warn # more verbose logging for monitoring db performance
+      # - N8N_LOG_LEVEL=debug # would generate too much logs
+
+      # misc and debugging
+      - N8N_PYTHON_ENABLED=false # stop error message python not found
+      - N8N_RUNNERS_ENABLED=false # debug error message
+      - EXECUTIONS_MODE=regular # debug error message
+
       # metrics
       - N8N_METRICS=true # enable Prometheus metrics
       - N8N_METRICS_INCLUDE_CACHE_METRICS=true
-      - N8N_METRICS_INCLUDE_MESSAGE_EVENT_BUS_METRICS=true
-      - N8N_METRICS_INCLUDE_WORKFLOW_ID_LABEL=true
-      - N8N_METRICS_INCLUDE_NODE_TYPE_LABEL=true
       - N8N_METRICS_INCLUDE_CREDENTIAL_TYPE_LABEL=true
-      - N8N_METRICS_INCLUDE_QUEUE_METRICS=true
-
+      - N8N_METRICS_INCLUDE_NODE_TYPE_LABEL=true
+      - N8N_METRICS_INCLUDE_WORKFLOW_ID_LABEL=true
     volumes:
       - n8n_volume:/home/node/.n8n
     networks:

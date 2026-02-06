@@ -6,17 +6,31 @@ services:
     ports:
       - 5678:5678
     environment:
-      - N8N_HOST=n8n.mightbesimon.com
-      - WEBHOOK_TUNNEL_URL=https://n8n.mightbesimon.com/
-      - WEBHOOK_URL=https://n8n.mightbesimon.com/
-      - GENERIC_TIMEZONE=Europe/Paris
-      - TZ=Europe/Paris
+      # security and privacy, and reduce network traffic
+      - N8N_DIAGNOSTICS_ENABLED=false # disable telemetry collection
+      - N8N_VERSION_NOTIFICATIONS_ENABLED=false
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
-      - N8N_RUNNERS_ENABLED=false
-      - N8N_PROXY_HOPS=1
-      - N8N_PYTHON_BINARY=/usr/bin/python3
-      - N8N_METRICS=true
-      - QUEUE_HEALTH_CHECK_ACTIVE=true
+
+      # domain
+      - N8N_PROXY_HOPS=1 # required when running behind a reverse proxy
+      - N8N_HOST=n8n.mightbesimon.com
+      - WEBHOOK_URL=https://n8n.mightbesimon.com/
+      - N8N_EDITOR_BASE_URL=https://n8n.mightbesimon.com/
+      - WEBHOOK_TUNNEL_URL=https://n8n.mightbesimon.com/
+
+      # timezone for scheduler, database, logs
+      - GENERIC_TIMEZONE=Europe/Paris # set n8n timezone
+      - TZ=Europe/Paris # set container timezone
+
+      # metrics
+      - N8N_METRICS=true # enable Prometheus metrics
+      - N8N_METRICS_INCLUDE_CACHE_METRICS=true
+      - N8N_METRICS_INCLUDE_MESSAGE_EVENT_BUS_METRICS=true
+      - N8N_METRICS_INCLUDE_WORKFLOW_ID_LABEL=true
+      - N8N_METRICS_INCLUDE_NODE_TYPE_LABEL=true
+      - N8N_METRICS_INCLUDE_CREDENTIAL_TYPE_LABEL=true
+      - N8N_METRICS_INCLUDE_QUEUE_METRICS=true
+
     volumes:
       - n8n_volume:/home/node/.n8n
     networks:

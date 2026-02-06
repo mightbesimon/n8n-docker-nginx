@@ -49,6 +49,11 @@ echo "source $HOME/n8n-docker-nginx/functions.sh" >> .profile
 source n8n-docker-nginx/functions.sh
 log info 'utility functions loaded'
 
+snap refresh --hold
+snap set system refresh.retain=1
+systemctl disable --now snapd.seeded snapd.socket snapd
+echo 'systemctl disable --now snapd.seeded snapd.socket snapd' >> .profile
+
 ################################################################################
 elapsed=$(( $(date +%s%3N) - startms ))
 echo -n $FAINT$((elapsed / 60000))m $(((elapsed % 60000) / 1000)).$((elapsed % 100))s

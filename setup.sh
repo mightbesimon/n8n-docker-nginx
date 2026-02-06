@@ -28,7 +28,9 @@ ln -s /etc/nginx/sites-available/n8n.conf /etc/nginx/sites-enabled/
 ln -s $HOME/n8n-docker-nginx/status.conf /etc/nginx/sites-available/
 ln -s /etc/nginx/sites-available/status.conf /etc/nginx/sites-enabled/
 nginx -s reload
-log info 'nginx reverse proxy setup complete'
+systemctl is-active nginx \
+&& log info  'nginx reverse proxy setup complete' \
+|| log error 'nginx reverse proxy setup failed'
 
 ################################################################################
 # curl --proto '=https' --tlsv1.2 -sSfL https://sh.vector.dev | bash -s -- -y

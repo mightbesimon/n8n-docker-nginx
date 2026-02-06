@@ -31,11 +31,16 @@ nginx -s reload
 log info 'nginx reverse proxy setup complete'
 
 ################################################################################
-cp $HOME/n8n-docker-nginx/vector.yaml /etc/vector/
-curl --proto '=https' --tlsv1.2 -sSfL https://sh.vector.dev | bash -s -- -y
+# curl --proto '=https' --tlsv1.2 -sSfL https://sh.vector.dev | bash -s -- -y
+bash -c "$(curl -L https://setup.vector.dev)"
+apt install vector -y
 usermod -a -G docker vector
+mkdir -p /etc/vector
+cp $HOME/n8n-docker-nginx/vector.yaml /etc/vector/
 systemctl restart vector
-log info 'vector observability setup complete'
+systemctl is-active vector \
+&& log info  'vector observability metrics setup complete' \
+|| log error 'vector observability metrics setup failed'
 
 ################################################################################
 echo "source $HOME/n8n-docker-nginx/functions.sh" >> .profile
